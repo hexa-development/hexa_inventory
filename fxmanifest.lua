@@ -43,7 +43,6 @@ client_scripts {
     'client/ui/callbacks.lua',
     'client/ui/trade_events.lua',
     'client/ui/trade_callbacks.lua',
-    'client/ui/trade_target.lua',
     'client/drops/ui/callbacks.lua',
     'client/main.lua',
     'client/drops/loops.lua',

@@ -2,11 +2,12 @@
 
 `hexa_inventory` is a persistent grid inventory resource for RedM servers running `hexa_core`. It provides player inventories, stashes, shops, ground drops, quick slots, item history, secure player trading, large item footprints, durability warnings, and compatibility helpers for resources ported from RSG and VORP.
 
+![Hexa Inventory UI preview](docs/ui-preview.png)
+
 ## Requirements
 
 - `hexa_core` 3.x
 - `oxmysql`
-- `ox_target` is optional when `UseTarget` is enabled
 
 ## Installation
 
@@ -73,7 +74,9 @@ Items in `DisableDrop` become transparent and locked with a cross while a ground
 | Show hotbar | `Z` |
 | Use quick slot | `Alt + 1` through `Alt + 5` |
 | Sort open inventories | `B` |
-| Open a ground drop | `E` or `ox_target` |
+| Open a ground drop | Hold `E` |
+| Open a vending object | Hold `E` |
+| Trade with a player | `/trade` |
 
 Ground bags can be opened but cannot be picked up or carried.
 

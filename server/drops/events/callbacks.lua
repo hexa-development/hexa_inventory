@@ -162,7 +162,7 @@ local function CreateItemDrop(coords, itemData, shouldRemoveFromInventory, sourc
             isOpen = false
         }
 
-        TriggerClientEvent('hexa_inventory:client:setupDropTarget', -1, networkId, newDropId)
+        TriggerClientEvent('hexa_inventory:client:setupDrop', -1, networkId, newDropId)
     else
 
         placeInDrop(newDropId, itemData)

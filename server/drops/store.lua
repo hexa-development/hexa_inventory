@@ -124,7 +124,7 @@ function DropStore.Delete(identifier)
     local entity = drop.entityId and NetworkGetEntityFromNetworkId(drop.entityId)
     if entity and entity ~= 0 and DoesEntityExist(entity) then DeleteEntity(entity) end
     Drops[identifier] = nil
-    TriggerClientEvent('hexa_inventory:client:removeDropTarget', -1, drop.entityId)
+    TriggerClientEvent('hexa_inventory:client:removeDrop', -1, drop.entityId)
     return true
 end
 
@@ -166,7 +166,7 @@ function DropStore.LoadAll()
                     slots = config.DropSize.slots,
                     isOpen = false,
                 }
-                TriggerClientEvent('hexa_inventory:client:setupDropTarget', -1, networkId, identifier)
+                TriggerClientEvent('hexa_inventory:client:setupDrop', -1, networkId, identifier)
                 loaded = loaded + 1
             end
         end

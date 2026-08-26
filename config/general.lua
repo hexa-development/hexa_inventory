@@ -2,7 +2,6 @@
 HexaInventory = HexaInventory or {}
 
 HexaInventory.Config = {
-    UseTarget = GetConvar('UseTarget', 'false') == 'true',
     StashSize = { maxweight = 500, slots = 100 },
     DropSize = { maxweight = -1, slots = -1 },
     DropMergeRadius = 1.5,

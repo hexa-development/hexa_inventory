@@ -1,14 +1,8 @@
 -- Hexa Inventory source.
 Drops = {
     Active = {},
-    Targeted = {},
     Opening = false,
 }
-
-function Drops.UsesTarget()
-    local config = HexaInventory.Config
-    return config.UseTarget and GetResourceState('ox_target') == 'started'
-end
 
 function Drops.Register(identifier, networkId)
     if identifier and networkId then Drops.Active[identifier] = networkId end
@@ -18,7 +12,6 @@ function Drops.UnregisterByNetworkId(networkId)
     for identifier, currentNetworkId in pairs(Drops.Active) do
         if currentNetworkId == networkId then
             Drops.Active[identifier] = nil
-            Drops.Targeted[identifier] = nil
         end
     end
 end
@@ -77,6 +70,6 @@ function Drops.GetDrops()
     if not drops then return end
 
     for k, v in pairs(drops) do
-        TriggerEvent('hexa_inventory:client:setupDropTarget', v.entityId, k)
+        TriggerEvent('hexa_inventory:client:setupDrop', v.entityId, k)
     end
 end

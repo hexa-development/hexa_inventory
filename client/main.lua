@@ -8,19 +8,62 @@ InventoryCallback.Register('hexa_inventory:client:isInMelee', function()
 end)
 
 CreateThread(function()
-    if not config.UseTarget or GetResourceState('ox_target') ~= 'started' then return end
     local models = config.VendingObjects
     if not models or #models == 0 then return end
 
-    exports.ox_target:addModel(models, {
-        label = locale('info.vending'),
-        icon = 'fa-solid fa-cash-register',
-        distance = 2.5,
-        onSelect = function(data)
-            data.coords = GetEntityCoords(data.entity)
-            TriggerServerEvent('hexa_inventory:server:openVending', data)
-        end,
-    })
+    local promptGroup = GetRandomIntInRange(0, 0xffffff)
+    local groupTitle = CreateVarString(10, 'LITERAL_STRING', locale('info.vending'))
+    local openPrompt = UiPromptRegisterBegin()
+    PromptSetControlAction(openPrompt, Core.Shared.Keybinds.E)
+    PromptSetText(openPrompt, CreateVarString(10, 'LITERAL_STRING', locale('info.vending')))
+    PromptSetEnabled(openPrompt, true)
+    PromptSetVisible(openPrompt, true)
+    PromptSetHoldMode(openPrompt, true)
+    PromptSetGroup(openPrompt, promptGroup)
+    PromptRegisterEnd(openPrompt)
+
+    while true do
+        if LocalPlayer.state.inv_busy then
+            Wait(500)
+        else
+            local playerCoords = GetEntityCoords(PlayerPedId())
+            local nearestObject, nearestDistance
+
+            for i = 1, #models do
+                local object = GetClosestObjectOfType(
+                    playerCoords.x,
+                    playerCoords.y,
+                    playerCoords.z,
+                    2.5,
+                    models[i],
+                    false,
+                    false,
+                    false
+                )
+
+                if object ~= 0 and DoesEntityExist(object) then
+                    local distance = #(playerCoords - GetEntityCoords(object))
+                    if distance <= 2.5 and (not nearestDistance or distance < nearestDistance) then
+                        nearestObject, nearestDistance = object, distance
+                    end
+                end
+            end
+
+            if nearestObject then
+                PromptSetActiveGroupThisFrame(promptGroup, groupTitle)
+                if PromptHasHoldModeCompleted(openPrompt) then
+                    TriggerServerEvent('hexa_inventory:server:openVending', {
+                        coords = GetEntityCoords(nearestObject),
+                    })
+                    Wait(750)
+                else
+                    Wait(0)
+                end
+            else
+                Wait(350)
+            end
+        end
+    end
 end)
 
 CreateThread(function()

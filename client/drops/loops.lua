@@ -20,7 +20,7 @@ CreateThread(function()
     local openPrompt = createHoldPrompt(Core.Shared.Keybinds.E, locale('info.o_bag'))
 
     while true do
-        if Drops.UsesTarget() or LocalPlayer.state.holdingDrop or LocalPlayer.state.inv_busy then
+        if LocalPlayer.state.holdingDrop or LocalPlayer.state.inv_busy then
             Wait(500)
         else
             local playerCoords = GetEntityCoords(PlayerPedId())
